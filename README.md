@@ -1,2 +1,2 @@
-# godotHypercasualShader
-A shader meant for adding gradients to unlit 3D meshes. Contains examples, and documented code. 
+# Cake tower
+A little game to work with godot, blender and giving me some experience in developing a little game
