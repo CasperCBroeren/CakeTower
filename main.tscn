@@ -1,0 +1,88 @@
+[gd_scene load_steps=10 format=3 uid="uid://b6qde2p61mpny"]
+
+[ext_resource type="PackedScene" uid="uid://b8atwolrnulvq" path="res://wall.glb" id="1_a8uxq"]
+[ext_resource type="Script" path="res://main.cs" id="1_nqxiq"]
+[ext_resource type="PackedScene" uid="uid://dw0tdnoggitfo" path="res://table.glb" id="3_oj0by"]
+[ext_resource type="ArrayMesh" uid="uid://cvyvcbax6nq2x" path="res://cake.obj" id="7_j7jx5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ax258"]
+size = Vector3(1.13916, 0.208679, 1.13391)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_uggd6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_00rvt"]
+size = Vector3(1, 1.14056, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nil0t"]
+transparency = 1
+albedo_color = Color(1, 1, 0.313726, 0.486275)
+disable_receive_shadows = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_v8kjg"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_nqxiq")
+
+[node name="TheCamera" type="Camera3D" parent="."]
+transform = Transform3D(-0.741975, -0.244396, 0.624294, 0.00104894, 0.930764, 0.365619, -0.670427, 0.271935, -0.690347, -1.57224, 1.51367, 1.5564)
+
+[node name="CameraLight" type="OmniLight3D" parent="TheCamera"]
+transform = Transform3D(-0.741976, 1.49012e-08, -0.670427, -0.245712, 0.930418, 0.271935, 0.623777, 0.366501, -0.690347, -0.162435, 1.23147, -0.721245)
+light_color = Color(1, 0.756863, 1, 1)
+shadow_enabled = true
+shadow_blur = 0.468
+
+[node name="wall" parent="." instance=ExtResource("1_a8uxq")]
+
+[node name="wall2" parent="." instance=ExtResource("1_a8uxq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.96067, 0)
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.31475, 0.302705, 3.20707)
+light_color = Color(1, 0.756863, 1, 1)
+light_energy = 0.234
+shadow_blur = 0.468
+
+[node name="cake0" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1906, 0.729422, 3.11537)
+mass = 0.03
+linear_damp_mode = 1
+linear_damp = 5.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cake0"]
+mesh = ExtResource("7_j7jx5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="cake0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00170898, 0.0966483, 0.0254517)
+shape = SubResource("BoxShape3D_ax258")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_uggd6")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.18577, -0.284673, 2.34019)
+use_collision = true
+size = Vector3(6.57471, 0.525055, 5.29016)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0327446, 0)
+freeze = true
+
+[node name="table" parent="RigidBody3D" instance=ExtResource("3_oj0by")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0666261, 0, -0.0195096)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.20184, 0.070282, 3.10019)
+shape = SubResource("BoxShape3D_00rvt")
+
+[node name="slicePlane" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -3.06484, 1.78286, 3.26806)
+
+[node name="slicePlaneMesh" type="MeshInstance3D" parent="slicePlane"]
+transform = Transform3D(1, 0, 0, 0, 1, -8.35187e-23, 0, -8.35187e-23, 1, 0, 0, 0.355752)
+material_override = SubResource("StandardMaterial3D_nil0t")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_v8kjg")
+skeleton = NodePath("../..")
